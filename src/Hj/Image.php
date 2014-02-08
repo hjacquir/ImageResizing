@@ -19,6 +19,9 @@ class Image extends SplFileObject
      */
     private $openMode = 'r';
     
+    /**
+     * @param string $filename
+     */
     public function __construct($filename)
     {
         parent::__construct($filename, $this->openMode);

@@ -48,6 +48,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $image->isImage();
     }
     
+    /**
+     * @return array
+     */
     public function provideFileWhichAreNotImage()
     {
         return array(
