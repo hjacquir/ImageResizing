@@ -16,50 +16,10 @@ require '../../vendor/autoload.php';
  */
 class ImageTest extends PHPUnit_Framework_TestCase
 {
-    public function testIfTheImageIsAnSplFileObject()
+    public function testImageIsAFile()
     {
         $image = new Image('fixtures/test.png');
-        
         $this->assertTrue($image->isFile());
-        $this->assertInstanceOf('\SplFileObject', $image);
-    }
-    
-    public function testImageShouldHaveTheCorrectOpenMode()
-    {
-        $image = new Image('fixtures/test.png');
-        
-        $this->assertTrue($image->isFile());
-        $this->assertAttributeEquals('r', 'openMode', $image);
-    }
-    
-    /**
-     * @dataProvider provideFileWhichAreNotImage
-     * 
-     * @param string $filename
-     * 
-     * @expectedException \Exception
-     * @expectedExceptionMessage The file is not a valid image. Supported formats are JPEG and PNG 
-     */
-    public function testShouldThrowAnExceptionWhenTheFileIsNotAnImage($filename)
-    {
-        $image = new Image($filename);
-        
-        $this->assertTrue($image->isFile());
-        $image->isImage();
-    }
-    
-    /**
-     * @return array
-     */
-    public function provideFileWhichAreNotImage()
-    {
-        return array(
-            array('fixtures/test.avi'),
-            array('fixtures/test.doc'),
-            array('fixtures/test.docx'),
-            array('fixtures/test.mp3'),
-            array('fixtures/test.ppt'),
-            array('fixtures/test.xls'),
-        );
+        $this->assertInstanceOf('Hj\File', $image);
     }
 }
