@@ -16,6 +16,11 @@ require '../../vendor/autoload.php';
  */
 class FileTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @param string $filename
+     * 
+     * @return File
+     */
     private function getFile($filename)
     {
         return new File($filename);

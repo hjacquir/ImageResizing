@@ -42,8 +42,6 @@ class File extends SplFileObject
     /**
      * Check if the given file is a PNG or JPG file.
      * 
-     * @param File $image
-     * 
      * @return boolean
      */
     public function isImage()
