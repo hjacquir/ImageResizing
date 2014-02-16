@@ -16,25 +16,86 @@ require '../../vendor/autoload.php';
  */
 class FileTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var File
-     */
-    private $file;
-    
-    public function setUp()
+    private function getFile($filename)
     {
-        $this->file = new File('fixtures/test.png');
+        return new File($filename);
     }
     
     public function testFileIsAnSplFileObject()
     {
-        $this->assertTrue($this->file->isFile());
-        $this->assertInstanceOf('\SplFileObject', $this->file);
+        $file = $this->getFile('fixtures/test.jpg');
+        
+        $this->assertTrue($file->isFile());
+        $this->assertInstanceOf('\SplFileObject', $file);
     }
     
     public function testFileShouldHaveTheCorrectOpenMode()
     {
-        $this->assertTrue($this->file->isFile());
-        $this->assertAttributeEquals('r', 'openMode', $this->file);
+        $file = $this->getFile('fixtures/test.png');
+        
+        $this->assertTrue($file->isFile());
+        $this->assertAttributeEquals('r', 'openMode', $file);
+    }
+    
+    public function testMethodGenerateFileNameOfTheCopyShouldReturnAString()
+    {
+        $file = $this->getFile('fixtures/test.jpg');
+        
+        $this->assertTrue($file->isFile());
+        $this->assertContains('test.jpg', $file->generateFilenameOfTheCopy());
+        $this->assertContains('fixtures/', $file->generateFilenameOfTheCopy());
+    }
+    
+    /**
+     * @dataProvider provideSupportedFormatOfFile
+     * 
+     * @param string $filename
+     */
+    public function testMethodIsImageShouldReturnTrueWhenTheFileIsSupported($filename)
+    {
+        $file = $this->getFile($filename);
+        
+        $this->assertTrue($file->isFile());
+        $this->assertTrue($file->isImage());
+    }
+    
+    /**
+     * @return array
+     */
+    public function provideSupportedFormatOfFile()
+    {
+        return array(
+            array('fixtures/test.jpg'),
+            array('fixtures/test.png'),
+            array('fixtures/test.jpeg'),
+        );
+    }
+    
+    /**
+     * @dataProvider provideNotSupportedFormatOfFile
+     * 
+     * @param string $filename
+     */
+    public function testMethodIsImageShouldReturnFalseWhenTheFileIsNotSupported($filename)
+    {
+        $file = $this->getFile($filename);
+        
+        $this->assertTrue($file->isFile());
+        $this->assertFalse($file->isImage());
+    }
+    
+    /**
+     * @return array
+     */
+    public function provideNotSupportedFormatOfFile()
+    {
+        return array(
+            array('fixtures/test.avi'),
+            array('fixtures/test.doc'),
+            array('fixtures/test.docx'),
+            array('fixtures/test.mp3'),
+            array('fixtures/test.ppt'),
+            array('fixtures/test.xls'),
+        );
     }
 }
