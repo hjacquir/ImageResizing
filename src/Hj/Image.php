@@ -98,7 +98,7 @@ class Image extends File
     }
     
     /**
-     * Returns a new image convolved with Sobel matrix for the Y axis
+     * Returns a new image convolved with Sobel matrix
      * 
      * @param array  $matrix
      * @param string $axis
