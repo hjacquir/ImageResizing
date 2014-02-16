@@ -87,7 +87,13 @@ class ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testMethodConvolveShouldReturnAnImage($matrix, $axis)
     {
-        $this->assertInstanceOf('Hj\Image', $this->image->convolve($matrix, $axis));
+        $this->assertTrue($this->image->isFile());
+        
+        $convovedImage = $this->image->convolve($matrix, $axis);
+        
+        $this->assertInstanceOf('Hj\Image', $convovedImage);
+        $this->assertContains(strtoupper($axis) . '_dauphin.jpg', $convovedImage->getPathname());
+        
     }
     
     public function provideSupportedMatrixAndAxisName()
