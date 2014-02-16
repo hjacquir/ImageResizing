@@ -96,4 +96,28 @@ class Image extends File
         
         return new Image($copyFilename);
     }
+    
+    /**
+     * Returns a new image convolved with Sobel matrix for the Y axis
+     * 
+     * @param array  $matrix
+     * @param string $axis
+     * 
+     * @return Image
+     * 
+     * @todo add validation on x and y
+     * @todo add validation on matrix
+     */
+    public function convolve($matrix, $axis)
+    {
+        $imageResource = $this->imageToResource();
+        
+        imageconvolution($imageResource, $matrix, 1, 0);
+
+        $filename = $this->getPath() . '/' . strtoupper($axis) . '_' . $this->getFilename();
+        
+        imagejpeg($imageResource, $filename);
+        
+        return new Image($filename);
+    }
 }

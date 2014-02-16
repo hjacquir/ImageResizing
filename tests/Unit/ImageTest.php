@@ -78,4 +78,34 @@ class ImageTest extends PHPUnit_Framework_TestCase
         
         $this->assertSame(173.66666666667, $average);
     }
+    
+    /**
+     * @dataProvider provideSupportedMatrixAndAxisName
+     * 
+     * @param array  $matrix
+     * @param string $axis
+     */
+    public function testMethodConvolveShouldReturnAnImage($matrix, $axis)
+    {
+        $this->assertInstanceOf('Hj\Image', $this->image->convolve($matrix, 'x'));
+    }
+    
+    public function provideSupportedMatrixAndAxisName()
+    {
+        $matrixX = array(
+            array(1.0, 0.0, -1),
+            array(2.0, 0.0, -2),
+            array(1.0, 0.0 , -1),
+        );
+        $matrixY = array(
+            array(1.0, 2.0, 1.0),
+            array(0.0, 0.0, 0.0),
+            array(-1, -2 , -1),
+        );
+        
+        return array(
+            array($matrixX, 'x'),
+            array($matrixY, 'y'),
+        );
+    }
 }
