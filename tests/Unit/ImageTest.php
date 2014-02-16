@@ -23,7 +23,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->image = new Image('fixtures/test.jpg');
+        $this->image = new Image('fixtures/dauphin.jpg');
     }
 
     public function testImageIsAFile()
@@ -36,10 +36,10 @@ class ImageTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->image->isFile());
         $expectedImageSize = array(
-            0 => 441,
-            1 => 286,
+            0 => 221,
+            1 => 177,
             2 => 2,
-            3 => 'width="441" height="286"',
+            3 => 'width="221" height="177"',
             'bits' => 8,
             'channels' => 3,
             'mime' => 'image/jpeg',
@@ -50,11 +50,32 @@ class ImageTest extends PHPUnit_Framework_TestCase
     
     public function testMethodGetWidthShouldReturnTheWidthOfImage()
     {
-        $this->assertSame(441, $this->image->getWidth());
+        $this->assertSame(221, $this->image->getWidth());
     }
     
     public function testMethodGetHeightShouldReturnTheHeightOfImage()
     {
-        $this->assertSame(286, $this->image->getHeight());
+        $this->assertSame(177, $this->image->getHeight());
+    }
+    
+    public function testMethodCopyShouldReturnAnImage()
+    {
+        $this->assertTrue($this->image->isFile());
+        
+        $copy = $this->image->copy();
+        
+        $this->assertTrue($copy->isFile());
+        $this->assertInstanceOf('Hj\Image', $copy);
+    }
+    
+    public function testMethodGetAverageRGBComponentValueShouldReturnAFloat()
+    {
+        $this->assertTrue($this->image->isFile());
+        
+        $resource = $this->image->imageToResource();
+        
+        $average = $this->image->getAverageRGBComponentValue($resource, 100, 158);
+        
+        $this->assertSame(173.66666666667, $average);
     }
 }

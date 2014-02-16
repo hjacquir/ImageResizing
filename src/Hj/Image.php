@@ -45,4 +45,55 @@ class Image extends File
     {
         return $this->imageSize[1];
     }
+    
+    /**
+     * Return an average of RGB component
+     * 
+     * @param resource $resource A resource of image
+     * @param integer  $x        The pixel position on X axis (range values : [1,width-1])
+     * @param integer  $y        The pixel position on Y axis (range values : [1,height-1])
+     * 
+     * @return float $averageRGBComponent An average of RGB component value
+     */
+    public function getAverageRGBComponentValue($resource, $x, $y)
+    {
+        $colorIndexOfThePixel = imagecolorat($resource, $x, $y);
+        
+        // red component value
+        $r = ($colorIndexOfThePixel >> 16) & 0xFF;
+        // green component value
+        $g = ($colorIndexOfThePixel >> 8) & 0xFF;
+        // blue component value
+        $b = $colorIndexOfThePixel & 0xFF;
+        
+        $averageRGBComponent = ($r + $g + $b)/3;
+        
+        return $averageRGBComponent;
+    }
+
+    /**
+     * Return a resource of image
+     * 
+     * @return Resource $imageResource
+     */
+    public function imageToResource()
+    {
+        $imageResource = imagecreatefromjpeg($this->getPathname());
+        
+        return $imageResource;
+    }
+        
+    /**
+     * Returns the final image which is a copy of the original image because we do not change the initial
+     * 
+     * @return Image $copy The copy
+     */
+    public function copy()
+    {
+        $copyFilename = $this->generateFilenameOfTheCopy();
+        // we do a a copy of the original image because we do not change the initial
+        copy($this->getPathname(), $copyFilename);
+        
+        return new Image($copyFilename);
+    }
 }
